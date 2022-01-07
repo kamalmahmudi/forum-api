@@ -15,12 +15,14 @@ const {
 } = require('../Applications/securities')
 const { AuthenticationRepository } = require('../Domains/authentications')
 const { CommentRepository } = require('../Domains/comments')
+const { LikeRepository } = require('../Domains/likes')
 const { ReplyRepository } = require('../Domains/replies')
 const { ThreadRepository } = require('../Domains/threads')
 const { UserRepository } = require('../Domains/users')
 const {
   AuthenticationRepositoryPostgres,
   CommentRepositoryPostgres,
+  LikeRepositoryPostgres,
   ReplyRepositoryPostgres,
   ThreadRepositoryPostgres,
   UserRepositoryPostgres
@@ -38,7 +40,8 @@ const {
   GetThreadUseCase,
   LoginUserUseCase,
   LogoutUserUseCase,
-  RefreshAuthenticationUseCase
+  RefreshAuthenticationUseCase,
+  ToggleLikeUseCase
 } = require('../Applications/use_cases')
 
 // creating container
@@ -60,6 +63,20 @@ container.register([
   {
     key: CommentRepository.name,
     Class: CommentRepositoryPostgres,
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool
+        },
+        {
+          concrete: nanoid
+        }
+      ]
+    }
+  },
+  {
+    key: LikeRepository.name,
+    Class: LikeRepositoryPostgres,
     parameter: {
       dependencies: [
         {
@@ -305,6 +322,23 @@ container.register([
         {
           name: 'authenticationTokenManager',
           internal: AuthenticationTokenManager.name
+        }
+      ]
+    }
+  },
+  {
+    key: ToggleLikeUseCase.name,
+    Class: ToggleLikeUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [
+        {
+          name: 'likeRepository',
+          internal: LikeRepository.name
+        },
+        {
+          name: 'commentRepository',
+          internal: CommentRepository.name
         }
       ]
     }

@@ -84,7 +84,7 @@ describe('ReplyRepositoryPostgres', () => {
       const invalidTypeReply = {
         content: 'content'
       }
-      const invalidThreadReply = new NewReply({
+      const invalidCommentReply = new NewReply({
         content: 'content',
         threadId: 'thread-1234',
         commentId: 'comment-1111',
@@ -107,7 +107,7 @@ describe('ReplyRepositoryPostgres', () => {
         replyRepositoryPostgres.add(invalidTypeReply)
       ).rejects.toThrow()
       await expect(
-        replyRepositoryPostgres.add(invalidThreadReply)
+        replyRepositoryPostgres.add(invalidCommentReply)
       ).rejects.toThrowError('REPLY_REPOSITORY.COMMENT_NOT_FOUND')
       await expect(
         replyRepositoryPostgres.add(invalidOwnerReply)

@@ -38,7 +38,8 @@ describe('a DetailedComment entity', () => {
       content: 'content',
       is_deleted: false,
       created_at: new Date(),
-      username: 'username'
+      username: 'username',
+      like_count: 0
     }
 
     // Action
@@ -49,6 +50,7 @@ describe('a DetailedComment entity', () => {
     expect(detailedComment.content).toEqual(payload.content)
     expect(detailedComment.date).toEqual(payload.created_at.toJSON())
     expect(detailedComment.username).toEqual(payload.username)
+    expect(detailedComment.likeCount).toEqual(payload.like_count)
   })
 
   it('should create DetailedComment object correctly when comment is deleted', () => {
@@ -58,7 +60,8 @@ describe('a DetailedComment entity', () => {
       content: 'content',
       is_deleted: true,
       created_at: '2021-12-31T01:23:45.678Z',
-      username: 'username'
+      username: 'username',
+      like_count: 1
     }
 
     // Action
@@ -69,6 +72,7 @@ describe('a DetailedComment entity', () => {
     expect(deletedComment.content).toEqual('**komentar telah dihapus**')
     expect(deletedComment.date).toEqual(payload.created_at)
     expect(deletedComment.username).toEqual(payload.username)
+    expect(deletedComment.likeCount).toEqual(payload.like_count)
   })
 
   it('should update replies attribute correctly', () => {
@@ -78,7 +82,8 @@ describe('a DetailedComment entity', () => {
       content: 'content',
       is_deleted: false,
       created_at: new Date(),
-      username: 'username'
+      username: 'username',
+      like_count: 4
     }
     const repliesPayload = [
       new DetailedReply({

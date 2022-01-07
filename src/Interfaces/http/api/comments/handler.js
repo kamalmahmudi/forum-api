@@ -3,7 +3,7 @@ const {
   DeleteCommentUseCase
 } = require('../../../../Applications/use_cases')
 
-class ThreadsHandler {
+class CommentsHandler {
   constructor (container) {
     this._container = container
 
@@ -40,4 +40,4 @@ class ThreadsHandler {
   }
 }
 
-module.exports = ThreadsHandler
+module.exports = CommentsHandler

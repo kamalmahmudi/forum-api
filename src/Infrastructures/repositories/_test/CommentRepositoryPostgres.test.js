@@ -1,5 +1,6 @@
 const {
   CommentsTableTestHelper,
+  LikesTableTestHelper,
   ThreadsTableTestHelper,
   UsersTableTestHelper
 } = require('../../../../tests/helpers')
@@ -13,6 +14,7 @@ const { CommentRepositoryPostgres } = require('..')
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
+    await LikesTableTestHelper.cleanTable()
     await ThreadsTableTestHelper.cleanTable()
     await UsersTableTestHelper.cleanTable()
   })
@@ -189,6 +191,7 @@ describe('CommentRepositoryPostgres', () => {
     it('should return existing comments', async () => {
       // Arrange
       await CommentsTableTestHelper.addComment({ id: 'comment-1234' })
+      await LikesTableTestHelper.addLike({ id: 'like-1234', commentId: 'comment-1234', owner: 'user-1234' })
       await CommentsTableTestHelper.addComment({ id: 'comment-1235' })
       await CommentsTableTestHelper.addComment({ id: 'comment-1236' })
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool)
@@ -203,8 +206,11 @@ describe('CommentRepositoryPostgres', () => {
       expect(comments[0].content).toEqual('content')
       expect(comments[0].date).toBeDefined()
       expect(comments[0].username).toEqual('username')
+      expect(comments[0].likeCount).toEqual(1)
       expect(comments[1].id).toEqual('comment-1235')
+      expect(comments[1].likeCount).toEqual(0)
       expect(comments[2].id).toEqual('comment-1236')
+      expect(comments[2].likeCount).toEqual(0)
     })
 
     it('should return undefined no comment found in the thread', async () => {

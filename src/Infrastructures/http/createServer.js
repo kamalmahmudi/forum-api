@@ -9,6 +9,7 @@ const {
 const {
   authentications,
   comments,
+  likes,
   replies,
   threads,
   users
@@ -56,6 +57,10 @@ const createServer = async container => {
     },
     {
       plugin: replies,
+      options: { container }
+    },
+    {
+      plugin: likes,
       options: { container }
     }
   ])
