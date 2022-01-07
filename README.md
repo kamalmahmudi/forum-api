@@ -45,6 +45,6 @@
 - Repository: https://github.com/kamalmahmudi/forum-api
 -  Github workflows: https://github.com/kamalmahmudi/forum-api/actions
     - ❌ Failed CI: https://github.com/kamalmahmudi/forum-api/actions/runs/1666715183
-    - ✔️ Success CI: 
+    - ✔️ Success CI: https://github.com/kamalmahmudi/forum-api/actions/runs/1667189776
     - ❌ Failed CD: https://github.com/kamalmahmudi/forum-api/actions/runs/1666037340/attempts/1 (this action was executed for second time, so it's a success now)
     - ✔️ Success CD: https://github.com/kamalmahmudi/forum-api/actions/runs/1666062409
