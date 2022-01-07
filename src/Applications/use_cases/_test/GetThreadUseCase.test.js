@@ -58,13 +58,11 @@ describe('GetThreadUseCase', () => {
       .mockImplementation(() =>
         Promise.resolve([expectedDetailedCommentWithoutReplies])
       )
-    mockReplyRepository.findAllByCommentIds = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve({
-          [expectedDetailedCommentWithoutReplies.id]: [expectedDetailedReply]
-        })
-      )
+    mockReplyRepository.findAllByCommentIds = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        [expectedDetailedCommentWithoutReplies.id]: [expectedDetailedReply]
+      })
+    )
 
     /** creating use case instance */
     const getThreadUseCase = new GetThreadUseCase({
@@ -85,5 +83,55 @@ describe('GetThreadUseCase', () => {
     expect(mockReplyRepository.findAllByCommentIds).toBeCalledWith([
       expectedDetailedCommentWithoutReplies.id
     ])
+  })
+
+  it('should orchestrating the get thread action without comments correctly', async () => {
+    // Arrange
+    const useCasePayload = {
+      id: 'thread-1234'
+    }
+    const expectedDetailedThreadWithoutComments = new DetailedThread({
+      id: useCasePayload.id,
+      title: 'title',
+      body: 'body',
+      created_at: new Date(),
+      username: 'username'
+    })
+
+    /** creating dependency of use case */
+    const mockReplyRepository = new ReplyRepository()
+    const mockCommentRepository = new CommentRepository()
+    const mockThreadRepository = new ThreadRepository()
+
+    /** mocking needed function */
+    mockThreadRepository.find = jest
+      .fn()
+      .mockImplementation(() =>
+        Promise.resolve(expectedDetailedThreadWithoutComments)
+      )
+    mockCommentRepository.findAllByThreadId = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve())
+    mockReplyRepository.findAllByCommentIds = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve())
+
+    /** creating use case instance */
+    const getThreadUseCase = new GetThreadUseCase({
+      threadRepository: mockThreadRepository,
+      commentRepository: mockCommentRepository,
+      replyRepository: mockReplyRepository
+    })
+
+    // Action
+    const detailedThread = await getThreadUseCase.execute(useCasePayload)
+
+    // Assert
+    expect(detailedThread).toStrictEqual(expectedDetailedThreadWithoutComments)
+    expect(mockThreadRepository.find).toBeCalledWith(useCasePayload.id)
+    expect(mockCommentRepository.findAllByThreadId).toBeCalledWith(
+      useCasePayload.id
+    )
+    expect(mockReplyRepository.findAllByCommentIds).not.toBeCalled()
   })
 })
