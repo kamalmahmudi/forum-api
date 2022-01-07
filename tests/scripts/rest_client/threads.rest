@@ -1,0 +1,31 @@
+@host = http://localhost:5000
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6InVzZXItSTRjaTZ4SklOZnB4SnRTQkVoSzl4IiwiaWF0IjoxNjQwOTE0MDU3LCJleHAiOjE2NDA5MTcwNTd9.hDq_kAKpUlNUDCr9zPLOZGOxSqb84jihQWcB-5PsDRE
+@threadId = thread-GzBfjKkD1mu3IBmpJhpYS
+@commentId = comment-6tT603ALtqRqc22SOeXU8
+
+###
+POST {{host}}/threads
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "title": "title",
+    "body": "body"
+}
+
+###
+GET {{host}}/threads/{{threadId}}
+Authorization: Bearer {{accessToken}}
+
+###
+POST {{host}}/threads/{{threadId}}/comments
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "content": "content"
+}
+
+###
+DELETE {{host}}/threads/{{threadId}}/comments/{{commentId}}
+Authorization: Bearer {{accessToken}}

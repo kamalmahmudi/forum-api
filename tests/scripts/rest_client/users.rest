@@ -1,0 +1,29 @@
+@host = http://localhost:5000
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6InVzZXItSTRjaTZ4SklOZnB4SnRTQkVoSzl4IiwiaWF0IjoxNjQwODU2MTQ3fQ.OxGJiwMBDwWaEieQTrNI76WtdcjanaOdYzZfgZw5uQo
+
+###
+POST {{host}}/users
+Content-Type: application/json
+
+{
+    "username": "abcd",
+    "password": "efgh",
+    "fullname": "ijkl"
+}
+
+###
+POST {{host}}/authentications
+Content-Type: application/json
+
+{
+    "username": "abcd",
+    "password": "efgh"
+}
+
+###
+PUT {{host}}/authentications
+Content-Type: application/json
+
+{
+    "refreshToken": "{{refreshToken}}"
+}
