@@ -13,7 +13,7 @@
     "test": "jest --setupFiles dotenv/config -i --coverage",
     "test:watch:change": "jest --watch --setupFiles dotenv/config -i",
     "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i",
-    "test:newman": "node tests/scripts/newman/cleanup.js && newman run \"./tests/scripts/newman/Forum API V1 Test.postman_collection.json\" -e \"./tests/scripts/newman/Forum API V1 Test.postman_environment.json\" && node tests/scripts/newman/cleanup.js",
+    "test:newman": "node tests/scripts/newman/cleanup.js && newman run \"./tests/scripts/newman/Forum API V2 Test.postman_collection.json\" -e \"./tests/scripts/newman/Forum API V2 Test.postman_environment.json\" && node tests/scripts/newman/cleanup.js",
     "migrate": "node-pg-migrate",
     "migrate:test": "node-pg-migrate -f config/database/test.json"
   },
