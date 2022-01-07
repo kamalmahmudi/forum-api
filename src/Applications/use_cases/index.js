@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const AddCommentUseCase = require('./AddCommentUseCase')
 const AddReplyUseCase = require('./AddReplyUseCase')
 const AddThreadUseCase = require('./AddThreadUseCase')
@@ -8,6 +9,7 @@ const GetThreadUseCase = require('./GetThreadUseCase')
 const LoginUserUseCase = require('./LoginUserUseCase')
 const LogoutUserUseCase = require('./LogoutUserUseCase')
 const RefreshAuthenticationUseCase = require('./RefreshAuthenticationUseCase')
+const ToggleLikeUseCase = require('./ToggleLikeUseCase')
 
 module.exports = {
   AddCommentUseCase,
@@ -19,5 +21,6 @@ module.exports = {
   GetThreadUseCase,
   LoginUserUseCase,
   LogoutUserUseCase,
-  RefreshAuthenticationUseCase
+  RefreshAuthenticationUseCase,
+  ToggleLikeUseCase
 }

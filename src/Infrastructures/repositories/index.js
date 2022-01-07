@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const AuthenticationRepositoryPostgres = require('./AuthenticationRepositoryPostgres')
 const CommentRepositoryPostgres = require('./CommentRepositoryPostgres')
 const LikeRepositoryPostgres = require('./LikeRepositoryPostgres')

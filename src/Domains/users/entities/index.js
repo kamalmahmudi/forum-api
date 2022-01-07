@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const RegisteredUser = require('./RegisteredUser')
 const RegisterUser = require('./RegisterUser')
 const UserLogin = require('./UserLogin')

@@ -1,6 +1,7 @@
 const {
   AuthenticationsTableTestHelper,
   CommentsTableTestHelper,
+  LikesTableTestHelper,
   RepliesTableTestHelper,
   ThreadsTableTestHelper,
   TokenTestHelper,
@@ -165,6 +166,11 @@ describe('/threads endpoint', () => {
         id: 'comment-1234',
         content: 'satu'
       })
+      await LikesTableTestHelper.addLike({
+        id: 'like-1234',
+        commentId: 'comment-1234',
+        owner: 'user-1234'
+      })
       await RepliesTableTestHelper.addReply({
         id: 'reply-1234',
         content: 'satu-satu'
@@ -197,14 +203,21 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.thread.id).toEqual('thread-1234')
       expect(responseJson.data.thread.comments).toHaveLength(3)
       expect(responseJson.data.thread.comments[0].content).toEqual('satu')
+      expect(responseJson.data.thread.comments[0].likeCount).toEqual(1)
       expect(responseJson.data.thread.comments[0].replies).toHaveLength(2)
-      expect(responseJson.data.thread.comments[0].replies[0].content).toEqual('satu-satu')
-      expect(responseJson.data.thread.comments[0].replies[1].content).toEqual('**balasan telah dihapus**')
+      expect(responseJson.data.thread.comments[0].replies[0].content).toEqual(
+        'satu-satu'
+      )
+      expect(responseJson.data.thread.comments[0].replies[1].content).toEqual(
+        '**balasan telah dihapus**'
+      )
       expect(responseJson.data.thread.comments[1].content).toEqual(
         '**komentar telah dihapus**'
       )
+      expect(responseJson.data.thread.comments[1].likeCount).toEqual(0)
       expect(responseJson.data.thread.comments[1].replies).toBeUndefined()
       expect(responseJson.data.thread.comments[2].content).toEqual('tiga')
+      expect(responseJson.data.thread.comments[1].likeCount).toEqual(0)
       expect(responseJson.data.thread.comments[2].replies).toBeUndefined()
     })
 

@@ -2,7 +2,10 @@ const {
   AuthorizationError,
   NotFoundError
 } = require('../../Commons/exceptions')
-const { AddedComment, DetailedComment } = require('../../Domains/comments/entities')
+const {
+  AddedComment,
+  DetailedComment
+} = require('../../Domains/comments/entities')
 const { CommentRepository } = require('../../Domains/comments')
 
 class CommentRepositoryPostgres extends CommentRepository {
@@ -29,7 +32,8 @@ class CommentRepositoryPostgres extends CommentRepository {
       if (error.code === '23503') {
         if (error.constraint === 'fk_comments.thread_id_threads.id') {
           throw new NotFoundError('COMMENT_REPOSITORY.THREAD_NOT_FOUND')
-        } else { // error.constraint === 'fk_comments.owner_users.id')
+        } else {
+          // error.constraint === 'fk_comments.owner_users.id')
           throw new NotFoundError('COMMENT_REPOSITORY.USER_NOT_FOUND')
         }
       }
@@ -39,7 +43,9 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async find (id) {
     const query = {
-      text: 'SELECT id, content, thread_id, owner FROM comments WHERE id = $1 AND is_deleted = $2',
+      text: `SELECT id, content, thread_id, owner
+        FROM comments
+        WHERE id = $1 AND is_deleted = $2`,
       values: [id, false]
     }
 
@@ -52,7 +58,9 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async findByIdAndThreadId (id, threadId) {
     const query = {
-      text: 'SELECT id, content, thread_id, owner FROM comments WHERE id = $1 AND thread_id = $2 AND is_deleted = $3',
+      text: `SELECT id, content, thread_id, owner
+        FROM comments
+        WHERE id = $1 AND thread_id = $2 AND is_deleted = $3`,
       values: [id, threadId, false]
     }
 
@@ -65,7 +73,13 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async findAllByThreadId (threadId) {
     const query = {
-      text: 'SELECT c.*, u.username FROM comments c LEFT JOIN users u ON u.id = c.owner WHERE c.thread_id = $1 ORDER BY c.created_at',
+      text: `SELECT c.*, u.username, COUNT(l.id) like_count
+        FROM comments c
+        LEFT JOIN users u ON u.id = c.owner
+        LEFT JOIN likes l ON l.comment_id = c.id
+        WHERE c.thread_id = $1
+        GROUP BY c.id, u.username
+        ORDER BY c.created_at`,
       values: [threadId]
     }
 
@@ -82,7 +96,8 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async delete (id) {
     const query = {
-      text: 'UPDATE comments SET is_deleted = $1 WHERE id = $2 AND is_deleted = $3',
+      text:
+        'UPDATE comments SET is_deleted = $1 WHERE id = $2 AND is_deleted = $3',
       values: [true, id, false]
     }
 

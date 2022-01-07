@@ -44,7 +44,7 @@
 - Endpoint: https://spicy-fireant-6.a276.dcdg.xyz/
 - Repository: https://github.com/kamalmahmudi/forum-api
 -  Github workflows: https://github.com/kamalmahmudi/forum-api/actions
-    - ❌ Failed CI: 
+    - ❌ Failed CI: https://github.com/kamalmahmudi/forum-api/actions/runs/1666715183
     - ✔️ Success CI: 
     - ❌ Failed CD: https://github.com/kamalmahmudi/forum-api/actions/runs/1666037340/attempts/1 (this action was executed for second time, so it's a success now)
     - ✔️ Success CD: https://github.com/kamalmahmudi/forum-api/actions/runs/1666062409

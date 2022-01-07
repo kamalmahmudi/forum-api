@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const entities = require('./entities')
 const ThreadRepository = require('./ThreadRepository')
 

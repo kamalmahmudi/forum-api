@@ -7,13 +7,15 @@ class DetailedComment {
       content,
       is_deleted: isDeleted,
       created_at: date,
-      username
+      username,
+      like_count: likeCount = 0
     } = payload
 
     this.id = id
     this.content = isDeleted ? '**komentar telah dihapus**' : content
     this.date = date instanceof Date ? date.toJSON() : date
     this.username = username
+    this.likeCount = parseInt(likeCount)
   }
 
   _verifyPayload ({
@@ -21,7 +23,8 @@ class DetailedComment {
     content,
     is_deleted: isDeleted,
     created_at: date,
-    username
+    username,
+    like_count: likeCount
   }) {
     if (!id || !content || !date || !username) {
       throw new Error('DETAILED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY')
